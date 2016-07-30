@@ -1,0 +1,16 @@
+{
+    "rules": {
+        ".read": true,
+        ".write": true,
+        "todo": {
+          ".indexOn": "uid"
+        },
+        "users": {
+          ".indexOn": "uid",
+          "$uid": {
+            ".write": "auth !== null && auth.uid === $uid",
+           ".read": "auth !== null && auth.provider === 'google'"
+          }
+        }
+    }
+}
