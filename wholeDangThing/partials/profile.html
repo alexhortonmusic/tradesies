@@ -1,10 +1,10 @@
-<div id="profileView">
+<div class="profileView">
   <div class="profileBox">
     <div class="profileName">
       <h3>{{user.displayName}}</h3>
     </div>
     <div class="profileItemsCount">
-      <h4>Items posted: {{pinNum}}</h4>
+      <h4>Items posted: {{itemNum}}</h4>
     </div>
     <!-- <div class="profileAbout">
       <p>
@@ -16,20 +16,34 @@
   <div class="itemsBox">
     <div class="itemCard" ng-repeat="item in items">
       <div class="card">
-        <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator itemPic" ng-src="{{item.url}}">
-        </div>
-        <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4">{{item.title}}<i class="material-icons right">more_vert</i></span>
-          <p><a href="#">This will allow other users to request trade?</a></p>
-        </div>
-        <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4">{{item.title}}<i class="material-icons right">close</i></span>
-          <p>{{item.description}}</p>
-        </div>
-        <div class="deleteBtn">
-          <a class="waves-effect waves-light btn-large" ng-click="Remove(item.id)">X</a>
-        </div>
+          <div class="card-image waves-effect waves-block waves-light">
+            <img class="activator itemPic" ng-src="{{item.url}}">
+          </div>
+          <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4">{{item.title}}<i class="material-icons right">more_vert</i></span>
+            <p><a href="#">This will allow other users to request trade?</a></p>
+          </div>
+          <div class="card-reveal">
+            <span ng-hide="editing" ng-click="editing = true">
+              <span class="card-title grey-text text-darken-4">{{item.title}}<i class="material-icons right">close</i></span>
+              <p>{{item.description}}</p>
+              <a class="waves-effect waves-light btn-large" ng-click="showEdit()">Edit</a>
+            </span>
+            <!-- shows up when user edits an item -->
+            <div class="editForm" ng-show="editing" ng-submit="editing = !editing">
+              <label>Title:</label>
+              <input type="text" id="title-{{$index}}" value="{{item.title}}" ng-required/>
+              <label>Description:</label>
+              <input type="text" id="desc-{{$index}}" value="{{item.description}}" ng-required/>
+              <label>Photo Url:</label>
+              <input type="text" id="url-{{$index}}" value="{{item.url}}" ng-required/>
+              <button class="btn" id="btn-{{$index}}" ng-click="Edit(item.id, $event)">Save</button>
+
+            </div>
+          </div>
+          <div class="deleteBtn">
+            <a class="waves-effect waves-light btn-large" ng-click="Remove(item.id)">X</a>
+          </div>
       </div>
     </div>
   </div>
@@ -37,6 +51,7 @@
 
 <button ng-click="ShowNewItem = !ShowNewItem">Add Item</button>
 
+<!-- shows up when user adds an item -->
 <div class="newItem" ng-show="ShowNewItem">
 	<h2>Make a new item!</h2>
 	<input type="text" placeholder="Title" ng-model="itemTitle"/>
@@ -46,5 +61,4 @@
 		<button class="btn btn-normal" ng-click="createItem()">Add</button>
 		<button class="btn btn-danger" ng-click="ShowNewItem = !ShowNewItem">X</button>
 	</div>
-	<!-- <img src="img/puddle-jump.jpeg" /> -->
 </div>

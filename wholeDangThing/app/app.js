@@ -16,10 +16,6 @@ app.config(function($routeProvider) {
       // when('/list/:id', {
       //     templateUrl: 'partials/board.html',
       //     controller: 'BoardCtrl'
-      // }).
-      //  when('/pin', {
-      //     templateUrl: 'partials/pin.html',
-      //     controller: 'PinCtrl'
       }).
       otherwise('/');
 });

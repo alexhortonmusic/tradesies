@@ -9,7 +9,7 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
 	ItemFactory.getItems()
 	.then(function(itemsCollection) {
 		$scope.items = itemsCollection;
-    $scope.pinNum = $scope.items.length;
+    $scope.itemNum = $scope.items.length;
 	})
   .then(function(){
     console.log($scope.items);
@@ -17,6 +17,10 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
 
   let currentUser = localStorageService.get("currentUser");
 	$scope.user = currentUser;
+
+	// $scope.getUNum = function (event) {
+	// 	ItemFactory.getUneekNum(event);
+	// }
 
   $scope.createItem = function(){
     let currentUser = localStorageService.get("currentUser");
@@ -32,16 +36,28 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
     	ItemFactory.getItems()
       .then(function (itemsCollection) {
   			$scope.items = itemsCollection;
-        $scope.pinNum = $scope.items.length;
+        $scope.itemNum = $scope.items.length;
   		});
     });
   };
   $scope.showNewItem = false;
 
-  $scope.Check = function() {
-    console.log('did this work?');
-  }
+  $scope.editing = false;
 
+  $scope.showEdit = function () {
+		$scope.editing = true;
+	}
+
+  $scope.Edit = function (itemId,event) {
+    ItemFactory.editItem(itemId, event)
+    .then(function() {
+      ItemFactory.getItems()
+      .then(function(itemsCollection) {
+        $scope.items = itemsCollection;
+        $scope.itemNum = $scope.items.length;
+      })
+    })
+  }
 
   $scope.Remove = function (removeId) {
     ItemFactory.deleteItem(removeId)
@@ -49,8 +65,12 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
   		ItemFactory.getItems()
   		.then(function (itemsCollection) {
     		$scope.items = itemsCollection;
-        $scope.pinNum = $scope.items.length;
+        $scope.itemNum = $scope.items.length;
   		});
   	});
   };
+  // for checking if buttons are working, etc
+  $scope.Check = function() {
+    console.log('did this work?');
+  }
 });
