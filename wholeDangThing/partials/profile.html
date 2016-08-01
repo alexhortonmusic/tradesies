@@ -1,0 +1,50 @@
+<div id="profileView">
+  <div class="profileBox">
+    <div class="profileName">
+      <h3>{{user.displayName}}</h3>
+    </div>
+    <div class="profileItemsCount">
+      <h4>Items posted: {{pinNum}}</h4>
+    </div>
+    <!-- <div class="profileAbout">
+      <p>
+        ex. I'm looking for an original 60s Fender Jazzmaster and a  Nash Guitars 'Tele'.
+      </p>
+    </div> -->
+  </div>
+
+  <div class="itemsBox">
+    <div class="itemCard" ng-repeat="item in items">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator itemPic" ng-src="{{item.url}}">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">{{item.title}}<i class="material-icons right">more_vert</i></span>
+          <p><a href="#">This will allow other users to request trade?</a></p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">{{item.title}}<i class="material-icons right">close</i></span>
+          <p>{{item.description}}</p>
+        </div>
+        <div class="deleteBtn">
+          <a class="waves-effect waves-light btn-large" ng-click="Remove(item.id)">X</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button ng-click="ShowNewItem = !ShowNewItem">Add Item</button>
+
+<div class="newItem" ng-show="ShowNewItem">
+	<h2>Make a new item!</h2>
+	<input type="text" placeholder="Title" ng-model="itemTitle"/>
+	<input type="text" placeholder="Description" ng-model="itemDescription"/>
+	<input type="text" placeholder="Photo Url" ng-model="itemUrl"/>
+	<div class="boardBtnBox">
+		<button class="btn btn-normal" ng-click="createItem()">Add</button>
+		<button class="btn btn-danger" ng-click="ShowNewItem = !ShowNewItem">X</button>
+	</div>
+	<!-- <img src="img/puddle-jump.jpeg" /> -->
+</div>

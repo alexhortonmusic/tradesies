@@ -1,4 +1,4 @@
-lib/node_modules
-lib/bower_components
-partials/fireinit.html
-styles
+wholeDangThing/lib/node_modules
+wholeDangThing/lib/bower_components
+wholeDangThing/partials/fireinit.html
+wholeDangThing/styles
