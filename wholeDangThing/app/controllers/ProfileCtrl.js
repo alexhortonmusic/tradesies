@@ -20,6 +20,8 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
 		$scope.wishItems = wishCollection;
 	})
 
+
+
   $scope.createItem = function(){
     let currentUser = localStorageService.get("currentUser");
     let newItem = {
@@ -64,5 +66,17 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
   		});
   	});
   };
+
+  $scope.wishRemove = function (removeId) {
+    ItemFactory.deleteWishItem(removeId)
+  	.then(function () {
+			ItemFactory.getWishItems()
+			.then(function(wishCollection) {
+				$scope.wishItems = wishCollection;
+  		});
+  	});
+  };
+
+
 
 });
