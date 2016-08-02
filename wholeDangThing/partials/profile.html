@@ -11,9 +11,11 @@
         ex. I'm looking for an original 60s Fender Jazzmaster and a  Nash Guitars 'Tele'.
       </p>
     </div> -->
+    <button ng-click="ShowNewItem = !ShowNewItem">Add Item</button>
   </div>
 
   <div class="itemsBox">
+    <h1>Your Gear</h1>
     <div class="itemCard" ng-repeat="item in items">
       <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
@@ -21,7 +23,7 @@
           </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">{{item.title}}<i class="material-icons right">more_vert</i></span>
-            <p><a href="#">This will allow other users to request trade?</a></p>
+            <!-- <p><a href="#">This will allow other users to request trade?</a></p> -->
           </div>
           <div class="card-reveal">
             <span ng-hide="editing" ng-click="editing = true">
@@ -47,9 +49,28 @@
       </div>
     </div>
   </div>
+  <div class="wishListBox">
+    <h1>Wish List</h1>
+    <div class="itemCard" ng-repeat="item in wishItems">
+      <div class="card">
+          <div class="card-image waves-effect waves-block waves-light">
+            <img class="activator itemPic" ng-src="{{item.url}}">
+          </div>
+          <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4">{{item.title}}<i class="material-icons right">more_vert</i></span>
+            <p><a href="#">Request Trade?</a></p>
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">{{item.title}}<i class="material-icons right">close</i></span>
+            <p>{{item.description}}</p>
+          </div>
+          <div class="deleteBtn">
+            <a class="waves-effect waves-light btn-large" ng-click="Remove(item.id)">X</a>
+          </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<button ng-click="ShowNewItem = !ShowNewItem">Add Item</button>
 
 <!-- shows up when user adds an item -->
 <div class="newItem" ng-show="ShowNewItem">

@@ -12,10 +12,10 @@ app.config(function($routeProvider) {
       when('/profile', {
           templateUrl: 'partials/profile.html',
           controller: 'ProfileCtrl'
-      // }).
-      // when('/list/:id', {
-      //     templateUrl: 'partials/board.html',
-      //     controller: 'BoardCtrl'
+      }).
+      when('/all-items', {
+          templateUrl: 'partials/all-items.html',
+          controller: 'ListCtrl'
       }).
       otherwise('/');
 });
