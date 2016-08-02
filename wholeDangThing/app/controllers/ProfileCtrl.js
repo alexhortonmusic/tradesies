@@ -1,11 +1,11 @@
 'use strict';
 
 app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFactory, localStorageService) {
-	// ItemFactory.getAllItems()
-	// .then(function(items){
-	// 	$scope.itemNumber = items.length;
-	// 	console.log("item num", $scope.itemNumber)
-	// })
+	let currentUser = localStorageService.get("currentUser");
+	$scope.user = currentUser;
+	$scope.showNewItem = false;
+  $scope.editing = false;
+
 	ItemFactory.getItems()
 	.then(function(itemsCollection) {
 		$scope.items = itemsCollection;
@@ -15,12 +15,10 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
     console.log($scope.items);
   })
 
-  let currentUser = localStorageService.get("currentUser");
-	$scope.user = currentUser;
-
-	// $scope.getUNum = function (event) {
-	// 	ItemFactory.getUneekNum(event);
-	// }
+	ItemFactory.getWishItems()
+	.then(function(wishCollection) {
+		$scope.wishItems = wishCollection;
+	})
 
   $scope.createItem = function(){
     let currentUser = localStorageService.get("currentUser");
@@ -40,9 +38,6 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
   		});
     });
   };
-  $scope.showNewItem = false;
-
-  $scope.editing = false;
 
   $scope.showEdit = function () {
 		$scope.editing = true;
@@ -69,8 +64,5 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
   		});
   	});
   };
-  // for checking if buttons are working, etc
-  $scope.Check = function() {
-    console.log('did this work?');
-  }
+
 });

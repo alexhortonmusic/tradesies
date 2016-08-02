@@ -1,0 +1,34 @@
+<div class="profileView">
+  <div class="profileBox">
+    <div class="profileName">
+      <h3>{{user.displayName}}</h3>
+    </div>
+    <div class="profileItemsCount">
+      <h4>Items posted: {{itemNum}}</h4>
+    </div>
+    <!-- <div class="profileAbout">
+      <p>
+        ex. I'm looking for an original 60s Fender Jazzmaster and a  Nash Guitars 'Tele'.
+      </p>
+    </div> -->
+  </div>
+
+  <div class="itemsBox">
+    <h1>Community Gear</h1>
+    <div class="itemCard" ng-repeat="item in allItems">
+      <div class="card">
+          <div class="card-image waves-effect waves-block waves-light">
+            <img class="activator itemPic" ng-src="{{item.url}}">
+          </div>
+          <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4">{{item.title}}<i class="material-icons right">more_vert</i></span>
+            <a class="waves-effect waves-light btn-large" ng-click="addWish(item)">Add to Wish List</a>
+          </div>
+          <div class="card-reveal">
+              <span class="card-title grey-text text-darken-4">{{item.title}}<i class="material-icons right">close</i></span>
+              <p>{{item.description}}</p>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

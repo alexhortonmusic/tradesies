@@ -1,6 +1,26 @@
 "use strict";
 
 app.factory("ItemFactory", function(FirebaseURL, $q, $http, localStorageService){
+  
+// gets all items EXCEPT user items
+  let getAllItems = function () {
+    let currentUser = localStorageService.get("currentUser");
+    let allItems = [];
+    return $q(function(resolve, reject) {
+      $http.get(`${FirebaseURL}/gear-item.json`)
+      .success(function(itemsObject) {
+        let allItemsCollection = itemsObject;
+        Object.keys(allItemsCollection).forEach(function(key) {
+          allItemsCollection[key].id = key;
+          if (allItemsCollection[key].uid !== currentUser.uid) {
+            allItems.push(allItemsCollection[key]);
+          };
+        });
+        console.log(allItems);
+        resolve(allItems);
+      });
+    });
+  };
 
   let getItems = function() {
 		let items = [];
@@ -11,7 +31,7 @@ app.factory("ItemFactory", function(FirebaseURL, $q, $http, localStorageService)
 				let itemsCollection = itemsObject;
 				// create array from object and loop thru keys - saving fb key for each item inside the obj as an id property
 				Object.keys(itemsCollection).forEach(function(key){
-					itemsCollection[key].id=key;
+					itemsCollection[key].id = key;
 					items.push(itemsCollection[key]);
 				});
 				resolve(items);
@@ -22,19 +42,38 @@ app.factory("ItemFactory", function(FirebaseURL, $q, $http, localStorageService)
 		});
 	};
 
-	// let saveItemsId = function(items) {
-	// 	console.log(items);
-	// 	return $q(function(resolve, reject) {
-  //     $http.patch(`${FirebaseURL}/gear-item/${items[0].id}.json`, JSON.stringify({"id": `${items[0].id}`}))
-  //     .success(function(ObjFromFirebase) {
-  //       console.log(ObjFromFirebase);
-  //       resolve(ObjFromFirebase);
-  //     })
-  //     .error(function (error) {
-  //       reject (error);
-  //     });
-  //   });
-	// };
+  let getWishItems = function() {
+		let wishItems = [];
+    let currentUser = localStorageService.get("currentUser");
+		return $q(function(resolve, reject) {
+			$http.get(`${FirebaseURL}wish-list.json?orderBy="uidWish"&equalTo="${currentUser.uid}"`)
+			.success(function(itemsObject) {
+				let wishCollection = itemsObject;
+				// create array from object and loop thru keys - saving fb key for each item inside the obj as an id property
+				Object.keys(wishCollection).forEach(function(key){
+					wishCollection[key].id = key;
+					wishItems.push(wishCollection[key]);
+				});
+				resolve(wishItems);
+			})
+			.error(function(error) {
+				reject(error);
+			});
+		});
+	};
+
+  let addWishItem = function(newItem) {
+    return $q(function(resolve, reject) {
+      $http.post(`${FirebaseURL}/wish-list.json`, JSON.stringify(newItem))
+      .success(function(ObjFromFirebase) {
+        console.log(ObjFromFirebase);
+        resolve(ObjFromFirebase);
+      })
+      .error(function (error) {
+         reject (error);
+      });
+    });
+  };
 
   let addItem = function(newItem) {
     return $q(function(resolve, reject) {
@@ -48,13 +87,6 @@ app.factory("ItemFactory", function(FirebaseURL, $q, $http, localStorageService)
       });
     });
   };
-
-  // let uniqueThing;
-  // let getUneekNum = function (event) {
-  //   let uniqueThing = event.currentTarget.id.split("-")[1];
-  //   console.log(uniqueThing);
-  // }
-
 
   let editItem = function(itemId, event) {
     let uniqueThing = event.currentTarget.id.split("-")[1];
@@ -78,5 +110,5 @@ app.factory("ItemFactory", function(FirebaseURL, $q, $http, localStorageService)
       });
     });
   };
-	return {getItems, addItem, deleteItem, editItem}
+	return {getItems, addItem, deleteItem, editItem, getAllItems, getWishItems, addWishItem}
 });
