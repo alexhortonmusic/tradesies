@@ -1,10 +1,12 @@
 'use strict';
 
-app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFactory, localStorageService) {
+app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFactory, localStorageService, MessageFactory) {
 	let currentUser = localStorageService.get("currentUser");
+	let ownerId;
 	$scope.user = currentUser;
-	$scope.showNewItem = false;
+	$scope.ShowNewItem = false;
   $scope.editing = false;
+	$scope.ShowNewMessage = false;
 
 	ItemFactory.getItems()
 	.then(function(itemsCollection) {
@@ -13,16 +15,43 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
 	})
   .then(function(){
     console.log($scope.items);
-  })
+  });
 
 	ItemFactory.getWishItems()
 	.then(function(wishCollection) {
 		$scope.wishItems = wishCollection;
-	})
+	});
+
+	$scope.beginMessage = function(item) {
+		$scope.ShowNewMessage = true;
+		ownerId = item.ownerId;
+		console.log('ownerId', ownerId);
+	};
+
+	$scope.sendMessage = function () {
+    let newMessage = {
+        subject: $scope.messageSubject,
+        imgUrl: $scope.messageUrl,
+        messageid: currentUser.uid + ownerId,
+        body: $scope.messageBody,
+				senderId: currentUser.uid,
+				recipientId: ownerId,
+				status: "Pending",
+				senderEmail: currentUser.email,
+				senderName: currentUser.displayName,
+				senderImg: currentUser.photoURL
+    };
+		MessageFactory.createMessage(newMessage)
+		.then(function() {
+			$scope.ShowNewMessage = false;
+			$scope.messageSubject = '';
+			$scope.messageUrl = '';
+			$scope.messageBody = '';
+		});
+  }
 
 
-
-  $scope.createItem = function(){
+  $scope.createItem = function() {
     let currentUser = localStorageService.get("currentUser");
     let newItem = {
         title: $scope.itemTitle,
@@ -33,6 +62,9 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
     ItemFactory.addItem(newItem)
     .then(function () {
       $scope.ShowNewItem = false;
+			$scope.itemUrl = '';
+			$scope.itemDescription = '';
+			$scope.itemTitle = '';
     	ItemFactory.getItems()
       .then(function (itemsCollection) {
   			$scope.items = itemsCollection;
