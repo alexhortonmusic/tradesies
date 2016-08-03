@@ -1,8 +1,11 @@
 'use strict';
 
-app.controller("NavCtrl", function($scope, $location, UserFactory, localStorageService) {
+app.controller("NavCtrl", function($scope, $location, UserFactory, localStorageService, $rootScope) {
   let currentUser = null;
   let userExists = false;
+
+  $rootScope.searchText = {};
+  $rootScope.searchText.search = "";
 
   $scope.login = function(){
     let provider = new firebase.auth.GoogleAuthProvider();
@@ -16,7 +19,6 @@ app.controller("NavCtrl", function($scope, $location, UserFactory, localStorageS
         let userArray = [];
         for (user in userList){
           let index = userList[user];
-          console.log("uid", index.uid)
           if(currentUid === index.uid){
               userExists = true;
           }

@@ -6,7 +6,6 @@ app.factory("MessageFactory", function(FirebaseURL, $q, $http, localStorageServi
     return $q(function(resolve, reject) {
       $http.post(`${FirebaseURL}/message.json`, JSON.stringify(newMessage))
       .success(function(ObjFromFirebase) {
-        console.log(ObjFromFirebase);
         resolve(ObjFromFirebase);
       })
       .error(function (error) {
@@ -27,7 +26,6 @@ app.factory("MessageFactory", function(FirebaseURL, $q, $http, localStorageServi
           messageCollection[key].id = key;
           messages.push(messageCollection[key]);
         });
-        console.log("Received Messages", messages);
         resolve(messages);
       })
       .error(function(error) {
@@ -48,7 +46,6 @@ app.factory("MessageFactory", function(FirebaseURL, $q, $http, localStorageServi
           sentMessageCollection[key].id = key;
           sentMessages.push(sentMessageCollection[key]);
         });
-        console.log("Sent Messages", sentMessages);
         resolve(sentMessages);
       })
       .error(function(error) {
@@ -75,10 +72,24 @@ app.factory("MessageFactory", function(FirebaseURL, $q, $http, localStorageServi
       recipientName: currentUser.displayName,
       recipientImg: currentUser.photoURL
     });
-  }
+  };
+
+  let shareInfo = function (messageId) {
+    return $q(function(resolve, reject) {
+      $http.get(`${FirebaseURL}/message/${messageId}.json`)
+      .success(function(messageObject) {
+        let acceptedTradeInfo = messageObject;
+        console.log("Accepted Trade Info", acceptedTradeInfo);
+        resolve(acceptedTradeInfo);
+      })
+      .error(function(error) {
+        reject(error);
+      });
+    });
+  };
 
 
 
 
-  return {createMessage, getReceivedMessages, getSentMessages, cancelTrade, acceptTrade};
+  return {createMessage, getReceivedMessages, getSentMessages, cancelTrade, acceptTrade, shareInfo};
 })

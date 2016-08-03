@@ -3,6 +3,7 @@
 app.controller('MessageCtrl', function($scope, $location, ItemFactory, UserFactory, localStorageService, MessageFactory) {
   let currentUser = localStorageService.get("currentUser");
   $scope.user = currentUser;
+  $scope.ShowAcceptedTrade = false;
 
   console.log(currentUser);
 
@@ -46,12 +47,13 @@ app.controller('MessageCtrl', function($scope, $location, ItemFactory, UserFacto
   $scope.acceptTrade = function(messageId) {
     MessageFactory.acceptTrade(messageId)
     .then(function() {
-      MessageFactory.getReceivedMessages ()
-      .then(function(messageCollection) {
-        $scope.messages = messageCollection;
-        $scope.messageNum = $scope.messages.length;
-      });
+      MessageFactory.shareInfo(messageId)
+      .then(function(acceptedTradeInfo) {
+        $scope.tradeInfo = acceptedTradeInfo;
+        console.log('trade', $scope.tradeInfo);
+        $scope.ShowAcceptedTrade = true;
+      })
     })
-  }
+  };
 
 })

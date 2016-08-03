@@ -56,3 +56,16 @@
   </div>
 
 </div>
+
+<!-- what user sees when they accept a trade -->
+<div class="acceptedTradeView" ng-show="ShowAcceptedTrade">
+	<h2>Congrats!</h2>
+  <div class="senderImg">
+    <img ng-src="{{tradeInfo.senderImg}}" />
+  </div>
+  <h4>{{tradeInfo.senderName}}</h4>
+  <p>{{tradeInfo.senderEmail}}</p>
+	<div class="boardBtnBox">
+		<button class="btn btn-danger" ng-click="ShowAcceptedTrade = !ShowAcceptedTrade">X</button>
+	</div>
+</div>
