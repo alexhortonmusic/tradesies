@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('ListCtrl', function($scope, $location, ItemFactory, UserFactory, localStorageService) {
+app.controller('ListCtrl', function($scope, $location, ItemFactory, UserFactory, localStorageService, TradeFactory) {
   let currentUser = localStorageService.get("currentUser");
 	$scope.user = currentUser;
 
@@ -18,6 +18,35 @@ app.controller('ListCtrl', function($scope, $location, ItemFactory, UserFactory,
   })
   .then(function(){
   });
+
+  // assigns ownerId so message can be directed based on user who owns item
+	$scope.beginMessage = function(item) {
+		$scope.ShowNewMessage = true;
+		ownerId = item.ownerId;
+		console.log('ownerId', ownerId);
+	};
+
+	// user hits 'Send Request' button
+	$scope.sendMessage = function () {
+    let newMessage = {
+        itemToTradeFor: $scope.messageTradeFor,
+				itemToTradeWith: $scope.messageTradeWith,
+        imgUrl: $scope.messageUrl,
+				senderId: currentUser.uid,
+				recipientId: ownerId,
+				status: "Pending",
+				senderEmail: currentUser.email,
+				senderName: currentUser.displayName,
+				senderImg: currentUser.photoURL
+    };
+		TradeFactory.createMessage(newMessage)
+		.then(function() {
+			$scope.ShowNewMessage = false;
+			$scope.messageTradeFor = '';
+			$scope.messageUrl = '';
+			$scope.messageTradeWith = '';
+		});
+  }
 
   $scope.addWish = function (item) {
     let productId = item.id;

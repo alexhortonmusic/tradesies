@@ -15,13 +15,14 @@
 
   <div class="itemsBox">
     <h1>Community Gear</h1>
-    <div class="itemCard" ng-repeat="item in allItems">
+    <div class="itemCard" ng-repeat="item in allItems | filter:searchText.search">
       <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
             <img class="activator itemPic" ng-src="{{item.url}}">
           </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">{{item.title}}<i class="material-icons right">more_vert</i></span>
+            <p ng-click="beginMessage(item)">Request Trade?</p>
             <a class="waves-effect waves-light btn-large" ng-click="addWish(item)">Add to Wish List</a>
           </div>
           <div class="card-reveal">
@@ -31,4 +32,19 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- shows up when user requests trade -->
+<div class="newMessage" ng-show="ShowNewMessage">
+	<h2>Propose a trade!</h2>
+  <label>Item to acquire: </label>
+	<input type="text" placeholder="ex. Gibson SG" ng-model="messageTradeFor"/>
+  <label>Item to offer: </label>
+	<input type="text" placeholder="I'd like to trade..." ng-model="messageTradeWith"/>
+  <label>Photo of your item: </label>
+	<input type="text" placeholder="Your Item Url" ng-model="messageUrl"/>
+	<div class="boardBtnBox">
+		<button class="btn btn-normal" ng-click="sendMessage()">Send Request</button>
+		<button class="btn btn-danger" ng-click="ShowNewMessage = !ShowNewMessage">X</button>
+	</div>
 </div>
