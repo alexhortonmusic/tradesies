@@ -44,7 +44,7 @@ app.controller("NavCtrl", function($scope, $location, UserFactory, localStorageS
 
   $scope.logout = function(){
 		firebase.auth().signOut();
-		$location.url("/");
+		$location.path("/");
 		console.log("signed out");
 	};
 

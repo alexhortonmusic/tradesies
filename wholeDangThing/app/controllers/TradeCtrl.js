@@ -8,12 +8,12 @@ app.controller('TradeCtrl', function($scope, $location, ItemFactory, UserFactory
   // gets all messages (both received and sent)
   TradeFactory.getReceivedMessages ()
   .then(function(messageCollection) {
-    $scope.messages = messageCollection;
+    $scope.receivedMessages = messageCollection;
     TradeFactory.getSentMessages ()
     .then(function(sentMessageCollection) {
+      $scope.sentMessages = sentMessageCollection;
       $scope.messages = messageCollection.concat(sentMessageCollection);
       $scope.messageNum = $scope.messages.length;
-
     })
   });
 

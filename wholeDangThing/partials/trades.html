@@ -24,7 +24,7 @@
   <div id="receivedMessages">
     <h2>Offers</h2>
     <div class="row">
-      <div class="col s12 m7" ng-repeat="message in messages">
+      <div class="col s6" ng-repeat="message in receivedMessages">
         <div class="card horizontal">
           <div class="card-image">
             <img ng-src="{{message.imgUrl}}">
@@ -47,7 +47,7 @@
   <div id="sentMessages">
     <h2>Your Proposals</h2>
     <div class="row">
-      <div class="col s12 m7" ng-repeat="message in sentMessages">
+      <div class="col s4" ng-repeat="message in sentMessages">
         <div class="card horizontal">
           <div class="card-image">
             <img ng-src="{{message.imgUrl}}">
