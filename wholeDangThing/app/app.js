@@ -18,8 +18,8 @@ app.config(function($routeProvider) {
         controller: 'ListCtrl'
       }).
       when('/trades', {
-        templateUrl: 'partials/message.html',
-        controller: 'MessageCtrl'
+        templateUrl: 'partials/trades.html',
+        controller: 'TradeCtrl'
       }).
       otherwise('/');
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory("MessageFactory", function(FirebaseURL, $q, $http, localStorageService) {
+app.factory("TradeFactory", function(FirebaseURL, $q, $http, localStorageService) {
 
   let createMessage = function(newMessage) {
     return $q(function(resolve, reject) {
@@ -54,6 +54,47 @@ app.factory("MessageFactory", function(FirebaseURL, $q, $http, localStorageServi
     });
   };
 
+  let getAcceptedTrades = function () {
+    let acceptedTrades = [];
+    let currentUser = localStorageService.get("currentUser");
+    return $q(function(resolve, reject) {
+      $http.get(`${FirebaseURL}/message.json?orderBy="recipientId"&equalTo="${currentUser.uid}--accept"`)
+      .success(function(acceptedTradeObj) {
+        let acceptedTradeCollection = acceptedTradeObj;
+        Object.keys(acceptedTradeCollection).forEach(function(key) {
+          acceptedTradeCollection[key].id = key;
+          acceptedTrades.push(acceptedTradeCollection[key]);
+        });
+        console.log(acceptedTrades);
+        resolve(acceptedTrades);
+      })
+      .error(function(error) {
+        reject(error);
+      });
+    });
+  };
+
+  let getSentAcceptedTrades = function () {
+    let sentAcceptedTrades = [];
+    let currentUser = localStorageService.get("currentUser");
+    return $q(function(resolve, reject) {
+      $http.get(`${FirebaseURL}/message.json?orderBy="senderId"&equalTo="${currentUser.uid}--accept"`)
+      .success(function(sentAcceptedTradeObj) {
+        let sentAcceptedTradeCollection = sentAcceptedTradeObj;
+        Object.keys(sentAcceptedTradeCollection).forEach(function(key) {
+          sentAcceptedTradeCollection[key].id = key;
+          sentAcceptedTrades.push(sentAcceptedTradeCollection[key]);
+        });
+        resolve(sentAcceptedTrades);
+      })
+      .error(function(error) {
+        reject(error);
+      });
+    });
+  };
+
+
+
   let cancelTrade = function(removeId) {
     let itemUrl = FirebaseURL + "/message/" + removeId + ".json";
     return $q(function(resolve, reject) {
@@ -64,13 +105,15 @@ app.factory("MessageFactory", function(FirebaseURL, $q, $http, localStorageServi
     });
   };
 
-  let acceptTrade = function (messageId) {
+  let acceptTrade = function (messageId, senderUid) {
     let currentUser = localStorageService.get("currentUser");
     return firebase.database().ref('message/' + messageId).update({
       status: 'Accepted',
       recipientEmail: currentUser.email,
       recipientName: currentUser.displayName,
-      recipientImg: currentUser.photoURL
+      recipientImg: currentUser.photoURL,
+      recipientId: currentUser.uid + '--accept',
+      senderId: senderUid + '--accept'
     });
   };
 
@@ -89,7 +132,5 @@ app.factory("MessageFactory", function(FirebaseURL, $q, $http, localStorageServi
   };
 
 
-
-
-  return {createMessage, getReceivedMessages, getSentMessages, cancelTrade, acceptTrade, shareInfo};
+  return {createMessage, getReceivedMessages, getSentMessages, getAcceptedTrades, getSentAcceptedTrades, cancelTrade, acceptTrade, shareInfo};
 })

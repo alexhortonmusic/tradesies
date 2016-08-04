@@ -1,37 +1,38 @@
 <div class="profileView">
-  <div class="profileBox">
-    <div class="profileName">
-      <h3>{{user.displayName}}</h3>
+  <div class="topRow">
+    <div class="profileBox">
+      <div class="profileName">
+        <h3>{{user.displayName}}</h3>
+      </div>
+      <div class="profileItemsCount">
+        <h4>Items posted: {{itemNum}}</h4>
+      </div>
+      <!-- <div class="profileAbout">
+        <p>
+          ex. I'm looking for an original 60s Fender Jazzmaster and a  Nash Guitars 'Tele'.
+        </p>
+      </div> -->
+      <button ng-click="ShowNewItem = !ShowNewItem">Add Item</button>
     </div>
-    <div class="profileItemsCount">
-      <h4>Items posted: {{itemNum}}</h4>
-    </div>
-    <!-- <div class="profileAbout">
-      <p>
-        ex. I'm looking for an original 60s Fender Jazzmaster and a  Nash Guitars 'Tele'.
-      </p>
-    </div> -->
-    <button ng-click="ShowNewItem = !ShowNewItem">Add Item</button>
-  </div>
 
-  <div class="itemsBox">
-    <h1>Your Gear</h1>
-    <div class="itemCard" ng-repeat="item in items">
-      <div class="card">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator itemPic" ng-src="{{item.url}}">
+    <div class="itemsBox">
+      <h1>Your Gear</h1>
+      <div class="col s12 m7" ng-repeat="item in items">
+        <div class="card horizontal">
+          <div class="card-image">
+            <img class="itemPic" ng-src="{{item.url}}">
           </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">{{item.title}}<i class="material-icons right">more_vert</i></span>
-            <!-- <p><a href="#">This will allow other users to request trade?</a></p> -->
-          </div>
-          <div class="card-reveal">
+          <div class="card-stacked">
             <span ng-hide="editing" ng-click="editing = true">
-              <span class="card-title grey-text text-darken-4">{{item.title}}<i class="material-icons right">close</i></span>
-              <p>{{item.description}}</p>
-              <a class="waves-effect waves-light btn-large" ng-click="showEdit()">Edit</a>
+              <div class="card-content">
+                <h4 class="header">{{item.title}}</h4>
+                <p>{{item.description}}</p>
+              </div>
+              <div class="card-action">
+                <a ng-click="showEdit()">Edit</a>
+                <button class="btn btn-danger" ng-click="Remove(item.id)">X</button>
+              </div>
             </span>
-            <!-- shows up when user edits an item -->
             <div class="editForm" ng-show="editing" ng-submit="editing = !editing">
               <label>Title:</label>
               <input type="text" id="title-{{$index}}" value="{{item.title}}" ng-required/>
@@ -40,15 +41,14 @@
               <label>Photo Url:</label>
               <input type="text" id="url-{{$index}}" value="{{item.url}}" ng-required/>
               <button class="btn" id="btn-{{$index}}" ng-click="Edit(item.id, $event)">Save</button>
-
             </div>
           </div>
-          <div class="deleteBtn">
-            <a class="waves-effect waves-light btn-large" ng-click="Remove(item.id)">X</a>
-          </div>
+        </div>
       </div>
     </div>
   </div>
+
+
   <div class="wishListBox">
     <h1>Wish List</h1>
     <div class="itemCard" ng-repeat="item in wishItems">
@@ -70,6 +70,7 @@
       </div>
     </div>
   </div>
+
 </div>
 
 <!-- shows up when user adds an item -->
@@ -87,8 +88,11 @@
 <!-- shows up when user requests trade -->
 <div class="newMessage" ng-show="ShowNewMessage">
 	<h2>Propose a trade!</h2>
-	<input type="text" placeholder="Trade X for Y?" ng-model="messageSubject"/>
-	<textarea type="text" placeholder="I'd like to trade..." ng-model="messageBody"/>
+  <label>Item to acquire: </label>
+	<input type="text" placeholder="ex. Gibson SG" ng-model="messageTradeFor"/>
+  <label>Item to offer: </label>
+	<input type="text" placeholder="I'd like to trade..." ng-model="messageTradeWith"/>
+  <label>Photo of your item: </label>
 	<input type="text" placeholder="Your Item Url" ng-model="messageUrl"/>
 	<div class="boardBtnBox">
 		<button class="btn btn-normal" ng-click="sendMessage()">Send Request</button>
