@@ -1,7 +1,7 @@
 "use strict";
 
 app.factory("ItemFactory", function(FirebaseURL, $q, $http, localStorageService){
-  
+
 // gets all items EXCEPT user items
   let getAllItems = function () {
     let currentUser = localStorageService.get("currentUser");
@@ -75,6 +75,16 @@ app.factory("ItemFactory", function(FirebaseURL, $q, $http, localStorageService)
     });
   };
 
+  let deleteWishItem = function(removeId) {
+    let itemUrl = FirebaseURL + "/wish-list/" + removeId + ".json";
+    return $q(function(resolve, reject) {
+      $http.delete(itemUrl)
+      .success(function() {
+        resolve();
+      });
+    });
+  };
+
   let addItem = function(newItem) {
     return $q(function(resolve, reject) {
       $http.post(`${FirebaseURL}/gear-item.json`, JSON.stringify(newItem))
@@ -110,5 +120,5 @@ app.factory("ItemFactory", function(FirebaseURL, $q, $http, localStorageService)
       });
     });
   };
-	return {getItems, addItem, deleteItem, editItem, getAllItems, getWishItems, addWishItem}
+	return {getItems, addItem, deleteItem, editItem, getAllItems, getWishItems, addWishItem, deleteWishItem}
 });
