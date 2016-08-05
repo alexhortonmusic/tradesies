@@ -18,6 +18,7 @@
          {{trade.itemToTradeWith}}
       </p>
       <a href="mailto:{{trade.senderEmail}}?Subject=Trade%20for%20{{trade.itemToTradeFor}}" class="secondary-content"><i class="material-icons">email</i></a>
+      <a class="secondary-content"><i class="material-icons">done</i></a>
     </li>
   </ul>
 
@@ -72,7 +73,7 @@
 </div>
 
 <!-- what user sees when they accept a trade -->
-<div class="acceptedTradeView" ng-show="ShowAcceptedTrade">
+<div class="newItem" ng-show="ShowAcceptedTrade">
 	<h2>Congrats!</h2>
   <div class="senderImg">
     <img ng-src="{{tradeInfo.senderImg}}" />
