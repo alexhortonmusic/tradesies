@@ -17,30 +17,32 @@
 
     <div class="itemsBox">
       <h1>Your Gear</h1>
-      <div class="col s12 m7" ng-repeat="item in items">
-        <div class="card horizontal">
-          <div class="card-image">
-            <img class="itemPic" ng-src="{{item.url}}">
-          </div>
-          <div class="card-stacked">
-            <span ng-hide="editing" ng-click="editing = true">
-              <div class="card-content">
-                <h4 class="header">{{item.title}}</h4>
-                <p>{{item.description}}</p>
+      <div class="row">
+        <div class="col s6 gearCard" ng-repeat="item in items">
+          <div class="card horizontal">
+            <div class="card-image">
+              <img class="itemImg" ng-src="{{item.url}}">
+            </div>
+            <div class="card-stacked">
+              <span ng-show="!editing[$index]">
+                <div class="card-content">
+                  <h5 class="header">{{item.title}}</h5>
+                  <p>{{item.description}}</p>
+                </div>
+                <div class="card-action">
+                  <a ng-click="showEdit($index)">Edit</a>
+                  <button class="btn btn-danger" ng-click="Remove(item.id)">X</button>
+                </div>
+              </span>
+              <div class="editForm" ng-show="editing[$index]">
+                <label>Title:</label>
+                <input type="text" id="title-{{$index}}" value="{{item.title}}" ng-required/>
+                <label>Description:</label>
+                <input type="text" id="desc-{{$index}}" value="{{item.description}}" ng-required/>
+                <label>Photo Url:</label>
+                <input type="text" id="url-{{$index}}" value="{{item.url}}" ng-required/>
+                <button class="btn" id="btn-{{$index}}" ng-click="Edit(item.id, $event, $index)">Save</button>
               </div>
-              <div class="card-action">
-                <a ng-click="showEdit()">Edit</a>
-                <button class="btn btn-danger" ng-click="Remove(item.id)">X</button>
-              </div>
-            </span>
-            <div class="editForm" ng-show="editing" ng-submit="editing = !editing">
-              <label>Title:</label>
-              <input type="text" id="title-{{$index}}" value="{{item.title}}" ng-required/>
-              <label>Description:</label>
-              <input type="text" id="desc-{{$index}}" value="{{item.description}}" ng-required/>
-              <label>Photo Url:</label>
-              <input type="text" id="url-{{$index}}" value="{{item.url}}" ng-required/>
-              <button class="btn" id="btn-{{$index}}" ng-click="Edit(item.id, $event)">Save</button>
             </div>
           </div>
         </div>
@@ -51,22 +53,21 @@
 
   <div class="wishListBox">
     <h1>Wish List</h1>
-    <div class="itemCard" ng-repeat="item in wishItems">
-      <div class="card">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator itemPic" ng-src="{{item.url}}">
+    <div class="row">
+      <div class="col s12 itemCard"  ng-repeat="item in wishItems">
+        <div class="card">
+          <div class="card-image">
+            <img class="wishPic" ng-src="{{item.url}}">
+            <span class="card-title">{{item.title}}</span>
           </div>
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">{{item.title}}<i class="material-icons right">more_vert</i></span>
-            <p ng-click="beginMessage(item)">Request Trade?</p>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">{{item.title}}<i class="material-icons right">close</i></span>
             <p>{{item.description}}</p>
           </div>
-          <div class="deleteBtn">
-            <a class="waves-effect waves-light btn-large" ng-click="wishRemove(item.id)">X</a>
+          <div class="card-action">
+            <a ng-click="beginMessage(item)">Request Trade</a>
+            <button class="btn btn-danger" ng-click="wishRemove(item.id)">X</button>
           </div>
+        </div>
       </div>
     </div>
   </div>
@@ -86,14 +87,11 @@
 </div>
 
 <!-- shows up when user requests trade -->
-<div class="newMessage" ng-show="ShowNewMessage">
+<div class="newItem" ng-show="ShowNewMessage">
 	<h2>Propose a trade!</h2>
-  <label>Item to acquire: </label>
-	<input type="text" placeholder="ex. Gibson SG" ng-model="messageTradeFor"/>
-  <label>Item to offer: </label>
-	<input type="text" placeholder="I'd like to trade..." ng-model="messageTradeWith"/>
-  <label>Photo of your item: </label>
-	<input type="text" placeholder="Your Item Url" ng-model="messageUrl"/>
+	<input type="text" placeholder="Item to acquire:" ng-model="messageTradeFor"/>
+	<input type="text" placeholder="Item to offer:" ng-model="messageTradeWith"/>
+	<input type="text" placeholder="Photo URL of your item:" ng-model="messageUrl"/>
 	<div class="boardBtnBox">
 		<button class="btn btn-normal" ng-click="sendMessage()">Send Request</button>
 		<button class="btn btn-danger" ng-click="ShowNewMessage = !ShowNewMessage">X</button>

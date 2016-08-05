@@ -5,7 +5,7 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
 	let ownerId;
 	$scope.user = currentUser;
 	$scope.ShowNewItem = false;
-  $scope.editing = false;
+  $scope.editing = [];
 	$scope.ShowNewMessage = false;
 
 	ItemFactory.getItems()
@@ -74,13 +74,15 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
     });
   };
 
-  $scope.showEdit = function () {
-		$scope.editing = true;
+  $scope.showEdit = function ($index) {
+		$scope.editing[$index] = true;
+		console.log($scope.editing);
 	}
 
-  $scope.Edit = function (itemId,event) {
+  $scope.Edit = function (itemId,event, $index) {
     ItemFactory.editItem(itemId, event)
     .then(function() {
+			$scope.editing[$index] = false;
       ItemFactory.getItems()
       .then(function(itemsCollection) {
         $scope.items = itemsCollection;

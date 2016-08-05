@@ -8,12 +8,12 @@ app.controller('TradeCtrl', function($scope, $location, ItemFactory, UserFactory
   // gets all messages (both received and sent)
   TradeFactory.getReceivedMessages ()
   .then(function(messageCollection) {
-    $scope.messages = messageCollection;
+    $scope.receivedMessages = messageCollection;
     TradeFactory.getSentMessages ()
     .then(function(sentMessageCollection) {
+      $scope.sentMessages = sentMessageCollection;
       $scope.messages = messageCollection.concat(sentMessageCollection);
       $scope.messageNum = $scope.messages.length;
-
     })
   });
 
@@ -29,12 +29,17 @@ app.controller('TradeCtrl', function($scope, $location, ItemFactory, UserFactory
   $scope.cancelTrade = function (removeId) {
     TradeFactory.cancelTrade(removeId)
     .then(function () {
-      TradeFactory.getSentMessages ()
-      .then(function(sentMessageCollection) {
-        $scope.sentMessages = sentMessageCollection;
-        $scope.sentMessageNum = $scope.sentMessages.length;
-      });
-    });
+      TradeFactory.getReceivedMessages ()
+      .then(function(messageCollection) {
+        $scope.receivedMessages = messageCollection;
+        TradeFactory.getSentMessages ()
+        .then(function(sentMessageCollection) {
+          $scope.sentMessages = sentMessageCollection;
+          $scope.messages = messageCollection.concat(sentMessageCollection);
+          $scope.messageNum = $scope.messages.length;
+        })
+      })
+    })
   };
 
   // recipient rejects trade offer. This cancels trade
@@ -43,9 +48,14 @@ app.controller('TradeCtrl', function($scope, $location, ItemFactory, UserFactory
     .then(function () {
       TradeFactory.getReceivedMessages ()
       .then(function(messageCollection) {
-        $scope.messages = messageCollection;
-        $scope.messageNum = $scope.messages.length;
-      });
+        $scope.receivedMessages = messageCollection;
+        TradeFactory.getSentMessages ()
+        .then(function(sentMessageCollection) {
+          $scope.sentMessages = sentMessageCollection;
+          $scope.messages = messageCollection.concat(sentMessageCollection);
+          $scope.messageNum = $scope.messages.length;
+        })
+      })
     });
   };
 
@@ -60,14 +70,19 @@ app.controller('TradeCtrl', function($scope, $location, ItemFactory, UserFactory
         $scope.ShowAcceptedTrade = true;
         TradeFactory.getReceivedMessages ()
         .then(function(messageCollection) {
-          $scope.messages = messageCollection;
-          $scope.messageNum = $scope.messages.length;
-          TradeFactory.getAcceptedTrades ()
-          .then(function(acceptedTrades) {
-            TradeFactory.getSentAcceptedTrades()
-            .then(function(sentAcceptedTrades) {
-              $scope.trades = acceptedTrades.concat(sentAcceptedTrades);
-              console.log($scope.trades);
+          $scope.receivedMessages = messageCollection;
+          TradeFactory.getSentMessages ()
+          .then(function(sentMessageCollection) {
+            $scope.sentMessages = sentMessageCollection;
+            $scope.messages = $scope.receivedMessages.concat($scope.sentMessages);
+            $scope.messageNum = $scope.messages.length;
+            TradeFactory.getAcceptedTrades ()
+            .then(function(acceptedTrades) {
+              TradeFactory.getSentAcceptedTrades()
+              .then(function(sentAcceptedTrades) {
+                $scope.trades = acceptedTrades.concat(sentAcceptedTrades);
+                console.log($scope.trades);
+              });
             });
           });
         });
