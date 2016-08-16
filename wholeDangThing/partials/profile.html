@@ -4,15 +4,13 @@
       <div class="profileName">
         <h3>{{user.displayName}}</h3>
       </div>
+      <div class="profileImg">
+        <img ng-src="{{user.photoURL}}" />
+      </div>
       <div class="profileItemsCount">
         <h4>Items posted: {{itemNum}}</h4>
       </div>
-      <!-- <div class="profileAbout">
-        <p>
-          ex. I'm looking for an original 60s Fender Jazzmaster and a  Nash Guitars 'Tele'.
-        </p>
-      </div> -->
-      <button ng-click="ShowNewItem = !ShowNewItem">Add Item</button>
+      <a class="btn-floating btn-large waves-effect waves-light red addNewItem" ng-click="ShowNewItem = !ShowNewItem"><i class="material-icons">add</i></a>
     </div>
 
     <div class="itemsBox">
@@ -30,7 +28,7 @@
                   <p>{{item.description}}</p>
                 </div>
                 <div class="card-action">
-                  <a ng-click="showEdit($index)">Edit</a>
+                  <a class="editGearCard" ng-click="showEdit($index)">Edit</a>
                   <button class="btn btn-danger" ng-click="Remove(item.id)">X</button>
                 </div>
               </span>
@@ -53,19 +51,21 @@
 
   <div class="wishListBox">
     <h1>Wish List</h1>
-    <div class="row">
-      <div class="col s12 itemCard"  ng-repeat="item in wishItems">
-        <div class="card">
-          <div class="card-image">
-            <img class="wishPic" ng-src="{{item.url}}">
-            <span class="card-title">{{item.title}}</span>
-          </div>
-          <div class="card-content">
-            <p>{{item.description}}</p>
-          </div>
-          <div class="card-action">
-            <a ng-click="beginMessage(item)">Request Trade</a>
-            <button class="btn btn-danger" ng-click="wishRemove(item.id)">X</button>
+    <div class="wishListWrapper">
+      <div class="row wishRow">
+        <div class="col s4 itemCard"  ng-repeat="item in wishItems">
+          <div class="card">
+            <div class="card-image">
+              <img class="wishPic" ng-src="{{item.url}}">
+              <span class="card-title">{{item.title}}</span>
+            </div>
+            <div class="card-content">
+              <p>{{item.description}}</p>
+            </div>
+            <div class="card-action">
+              <a class="requestTrade" ng-click="beginMessage(item)">Request Trade</a>
+              <button class="btn btn-danger" ng-click="wishRemove(item.id)">X</button>
+            </div>
           </div>
         </div>
       </div>
@@ -80,10 +80,14 @@
 	<input type="text" placeholder="Title" ng-model="itemTitle"/>
 	<input type="text" placeholder="Description" ng-model="itemDescription"/>
 	<input type="text" placeholder="Photo Url" ng-model="itemUrl"/>
-	<div class="boardBtnBox">
-		<button class="btn btn-normal" ng-click="createItem()">Add</button>
-		<button class="btn btn-danger" ng-click="ShowNewItem = !ShowNewItem">X</button>
-	</div>
+  <div class="newItemTag">
+    <img class="newItemTagImg" src="../img/want-a-sax.jpeg"/>
+  </div>
+  <p>Thanks for posting with Tradesies!</p>
+  <div class="boardBtnBox">
+    <button class="btn btn-normal" ng-click="createItem()" onclick="Materialize.toast('Added Gear!', 2000)">Add</button>
+    <button class="btn btn-danger" ng-click="ShowNewItem = !ShowNewItem">X</button>
+  </div>
 </div>
 
 <!-- shows up when user requests trade -->
@@ -93,7 +97,7 @@
 	<input type="text" placeholder="Item to offer:" ng-model="messageTradeWith"/>
 	<input type="text" placeholder="Photo URL of your item:" ng-model="messageUrl"/>
 	<div class="boardBtnBox">
-		<button class="btn btn-normal" ng-click="sendMessage()">Send Request</button>
+		<button class="btn btn-normal" ng-click="sendMessage()" onclick="Materialize.toast('Request Sent', 2000)">Send Request</button>
 		<button class="btn btn-danger" ng-click="ShowNewMessage = !ShowNewMessage">X</button>
 	</div>
 </div>

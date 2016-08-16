@@ -5,18 +5,22 @@ body {
   min-height: 100vh;
   flex-direction: column;
   box-sizing: border-box;
+  font-family: 'Scope One', serif;
 }
 
 main {
   flex: 1 0 auto;
 }
 
+/*---NAV----*/
+
 nav.tradesiesNav {
   background: #16a085;
 }
 
-footer.tradesies-footer {
-    margin-top: 0;
+.logo {
+  font-family: 'Bungee Shade', cursive;
+  margin-left: 10px;
 }
 
 .btn-danger {
@@ -25,6 +29,7 @@ footer.tradesies-footer {
 
 .searchBar {
   color: white;
+  cursor: pointer;
 }
 
 // #search {
@@ -41,9 +46,10 @@ footer.tradesies-footer {
     background-size: cover;
     background-position: bottom;
     h1 {
+      font-family: 'Bungee Shade', cursive;
       margin-top: 0;
       padding-top: 200px;
-      font-size: 13em;
+      font-size: 10em;
       text-align: center;
       color: lightgrey;
     }
@@ -58,12 +64,12 @@ footer.tradesies-footer {
       height: 70px;
       width: 200px;
       border-radius: 35px 35px;
-      margin: 20px auto 0;
+      margin: 40px auto 0;
       border: 1px solid white;
       cursor: pointer;
 
       .btnText {
-        margin-top: 0;
+        margin-top: 2px;
         text-align: center;
         font-size: 2em;
         color: lightgrey;
@@ -79,9 +85,6 @@ footer.tradesies-footer {
 //     width: 450px;
 // }
 
-.gearCard {
-  height: 225px;
-}
 
 .profileView {
   margin: 30px auto 0;
@@ -92,9 +95,37 @@ footer.tradesies-footer {
 
     .profileBox {
       display: inline-block;
+      margin-top: 30px;
       min-width: 250px;
-      height: 400px;
+      height: 375px;
+      background: #16a085;
+      color: white;
       border: 2px solid black;
+      border-radius: 2%;
+
+      .profileName h3 {
+          font-size: 2em;
+          text-align: center;
+      }
+
+      .profileImg img{
+        border-radius: 50%;
+        border: 2px solid white;
+        height: 120px;
+        margin: 0 70px;
+      }
+
+      .profileItemsCount {
+        text-align: center;
+
+        h4 {
+          font-size: 1.5em;
+        }
+      }
+
+      .addNewItem {
+        margin: 20px 95px;
+      }
     }
 
     .itemsBox {
@@ -104,10 +135,28 @@ footer.tradesies-footer {
       h1 {
         text-align: center;
       }
-      .itemImg {
-        width: 150px;
-        height: 200px;
 
+      .gearCard {
+        height: 200px;
+        margin-bottom: 30px;
+
+        .card-image {
+          height: 200px;
+
+          .itemImg {
+            width: 150px;
+            height: 200px;
+          }
+        }
+
+        .editGearCard {
+          cursor: pointer;
+        }
+
+        .btn-danger:active,
+        .btn-danger:hover {
+          background-color: #88291f;
+        }
       }
     }
   }
@@ -120,21 +169,37 @@ footer.tradesies-footer {
       text-align: center;
     }
 
+    .wishListWrapper {
+      width: 85%;
+      margin: 0 auto;
+    }
+
+    .wishRow {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
     .itemCard {
-      display: inline-block;
+      margin: 0;
       width: 300px;
       height: 400px;
-      margin-bottom: 20px;
+
       .wishPic {
         height: 200px;
         // background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6));
+      }
+
+      .btn-danger:active,
+      .btn-danger:hover {
+        background-color: #88291f;
       }
     }
   }
 }
 
 .newItem {
-  height: 500px;
+  height: 550px;
   width: 500px;
   z-index: 1000;
   position: fixed;
@@ -158,12 +223,124 @@ footer.tradesies-footer {
 
   input {
     display: block;
+    width: 90%;
     margin: 10px auto;
   }
+
+  p {
+    text-align: center;
+  }
+
+}
+
+.newItemTag {
+  display: flex;
+  justify-content: center;
+
+  .newItemTagImg {
+    height: 120px;
+    width: 120px;
+    margin-top: 20px;
+    border-radius: 50%;
+  }
+}
+
+.boardBtnBox {
+  display: flex;
+  justify-content: center;
 }
 
 /*----Trades-----*/
 
+.itemsBox h3 {
+  margin-left: 200px;
+}
 .collection {
-  width: 400px;
+  width: 700px;
+}
+
+.row .messageCard {
+  height: 250px;
+  width: 80%;
+  margin-bottom: 50px;
+}
+
+.completeTrade {
+  color: #c0392b;
+  margin-top: 5px;
+}
+
+.allMessages {
+  border: 2px solid black;
+  display: flex;
+  justify-content: space-around;
+
+  h2 {
+    text-align: center;
+  }
+
+  #receivedMessages {
+    width: 80%;
+    .messageCard {
+      width: 90%;
+
+      .card-image .itemPic {
+        height: 200px;
+      }
+    }
+  }
+
+  #sentMessages {
+    width: 80%;
+    .messageCard {
+      width: 90%;
+
+      .card-image .itemPic {
+        height: 200px;
+      }
+    }
+  }
+}
+
+/*----All Items Page----*/
+
+.itemCard {
+  height: 270px;
+  margin-bottom: 200px;
+  .itemPic {
+    height: 250px;
+  }
+}
+
+.addWishBtn {
+  margin: 10px 35px;
+}
+
+.requestTrade {
+  display: inline-block;
+  color: #ffab40;
+  cursor: pointer;
+}
+
+.requestTrade:hover {
+  border-bottom: 1px solid #ffab40;
+}
+
+
+/*-----Footer----*/
+
+footer.tradesies-footer {
+  background: #16a085;
+  margin-top: 0;
+}
+
+.footerLinks:hover,
+.footerLinks:active {
+  border-bottom: 1px solid white;
+  color: #9b59b6;
+  transition: 0.2s;
+}
+
+.copyright {
+  text-align: center;
 }

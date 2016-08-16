@@ -1,70 +1,81 @@
 <div class="profileView">
-  <div class="profileBox">
-    <div class="profileName">
-      <h3>{{user.displayName}}</h3>
+  <div class="topRow">
+    <div class="profileBox">
+      <div class="profileName">
+        <h3>{{user.displayName}}</h3>
+      </div>
+      <div class="profileImg">
+        <img ng-src="{{user.photoURL}}" />
+      </div>
+      <div class="profileItemsCount">
+        <h4>Pending Trades: {{messageNum}}</h4>
+      </div>
     </div>
-    <div class="profileItemsCount">
-      <h4>Pending Trades: {{messageNum}}</h4>
+    <div class="itemsBox">
+      <h3>Accepted Trades</h3>
+      <ul class="collection">
+        <li class="collection-item avatar" ng-repeat="trade in trades">
+          <a class="secondary-content"><i class="material-icons">check</i></a>
+          <img ng-src="{{trade.senderImg}}" alt="" class="circle">
+          <span class="title">{{trade.senderName}}</span>
+          <p>
+            <span style="border-bottom: 1px solid #16a085">{{trade.itemToTradeFor}}</span> <span style="color: #c0392b">for</span>
+            <span style="border-bottom: 1px solid #16a085">{{trade.itemToTradeWith}}</span><br /><br />
+            <span class="completeTrade" ng-click="cancelTrade(trade.id)">Trade complete?</span>
+          </p>
+          <a href="mailto:{{trade.senderEmail}}?Subject=Trade%20for%20{{trade.itemToTradeFor}}" class="secondary-content"><i class="material-icons">email</i></a>
+        </li>
+      </ul>
     </div>
-    <!-- <div class="profileAbout"></div> -->
   </div>
 
-  <h3>Accepted Trades</h3>
-  <ul class="collection">
-    <li class="collection-item avatar" ng-repeat="trade in trades">
-      <img ng-src="{{trade.senderImg}}" alt="" class="circle">
-      <span class="title">{{trade.senderName}}</span>
-      <p>{{trade.itemToTradeFor}} for<br>
-         {{trade.itemToTradeWith}}
-      </p>
-      <a href="mailto:{{trade.senderEmail}}?Subject=Trade%20for%20{{trade.itemToTradeFor}}" class="secondary-content"><i class="material-icons">email</i></a>
-    </li>
-  </ul>
-
-  <div id="receivedMessages">
-    <h2>Offers</h2>
-    <div class="row">
-      <div class="col s6" ng-repeat="message in receivedMessages">
-        <div class="card horizontal">
-          <div class="card-image">
-            <img ng-src="{{message.imgUrl}}">
-          </div>
-          <div class="card-stacked">
-            <div class="card-content">
-              <span class="card-title">{{message.itemToTradeFor}}</span>
-              <p>{{message.itemToTradeWith}}</p>
+  <div class="allMessages">
+    <div id="receivedMessages">
+      <h2>Offers</h2>
+      <div class="row">
+        <div class="col s12 messageCard" ng-repeat="message in receivedMessages">
+          <div class="card horizontal">
+            <div class="card-image">
+              <img class="itemPic" ng-src="{{message.imgUrl}}">
             </div>
-            <div class="card-action">
-              <button ng-click="acceptTrade(message.id, message.senderId)">Accept</button>
-              <button ng-click="rejectTrade(message.id)">Reject</button>
+            <div class="card-stacked">
+              <div class="card-content">
+                <span class="card-title">{{message.itemToTradeFor}}</span>
+                <p>{{message.itemToTradeWith}}</p>
+              </div>
+              <div class="card-action">
+                <button ng-click="acceptTrade(message.id, message.senderId)">Accept</button>
+                <button ng-click="rejectTrade(message.id)">Reject</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="sentMessages">
-    <h2>Your Proposals</h2>
-    <div class="row">
-      <div class="col s4" ng-repeat="message in sentMessages">
-        <div class="card horizontal">
-          <div class="card-image">
-            <img ng-src="{{message.imgUrl}}">
-          </div>
-          <div class="card-stacked">
-            <div class="card-content">
-              <span class="card-title">{{message.itemToTradeFor}}</span>
-              <p>{{message.itemToTradeWith}}</p>
-              <h5>Status: {{message.status}}</h5>
+    <div id="sentMessages">
+      <h2>Your Proposals</h2>
+      <div class="row">
+        <div class="col s12 messageCard" ng-repeat="message in sentMessages">
+          <div class="card horizontal">
+            <div class="card-image">
+              <img class="itemPic" ng-src="{{message.imgUrl}}">
             </div>
-            <div class="card-action">
-              <button ng-click="cancelTrade(message.id)">Cancel Trade</button>
+            <div class="card-stacked">
+              <div class="card-content">
+                <span class="card-title">{{message.itemToTradeFor}}</span>
+                <p>{{message.itemToTradeWith}}</p>
+                <h5>Status: {{message.status}}</h5>
+              </div>
+              <div class="card-action">
+                <button ng-click="cancelTrade(message.id)">Cancel Trade</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 
 

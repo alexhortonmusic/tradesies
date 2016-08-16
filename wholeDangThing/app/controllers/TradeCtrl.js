@@ -17,6 +17,7 @@ app.controller('TradeCtrl', function($scope, $location, ItemFactory, UserFactory
     })
   });
 
+
   TradeFactory.getAcceptedTrades ()
   .then(function(acceptedTrades) {
     TradeFactory.getSentAcceptedTrades ()
@@ -37,6 +38,14 @@ app.controller('TradeCtrl', function($scope, $location, ItemFactory, UserFactory
           $scope.sentMessages = sentMessageCollection;
           $scope.messages = messageCollection.concat(sentMessageCollection);
           $scope.messageNum = $scope.messages.length;
+          TradeFactory.getAcceptedTrades ()
+          .then(function(acceptedTrades) {
+            TradeFactory.getSentAcceptedTrades()
+            .then(function(sentAcceptedTrades) {
+              $scope.trades = acceptedTrades.concat(sentAcceptedTrades);
+              console.log($scope.trades);
+            });
+          });
         })
       })
     })
