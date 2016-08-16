@@ -48,6 +48,8 @@ app.controller('ListCtrl', function($scope, $location, ItemFactory, UserFactory,
 		});
   }
 
+  
+
   $scope.addWish = function (item) {
     let productId = item.id;
     let wishUrl = item.url;

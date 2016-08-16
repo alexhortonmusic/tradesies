@@ -4,6 +4,7 @@ app.controller('ProfileCtrl', function($scope, $location, ItemFactory, UserFacto
 	let currentUser = localStorageService.get("currentUser");
 	let ownerId;
 	$scope.user = currentUser;
+	console.log($scope.user);
 	$scope.ShowNewItem = false;
   $scope.editing = [];
 	$scope.ShowNewMessage = false;
